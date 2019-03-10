@@ -5,51 +5,6 @@ arrival_time = [4,2,5,0]
 burst_time = [4,6,7,5]
 priority = [3,1,4,2]
 
-
-def firstComeFirstServe():
-    t = 0
-    ans = []
-    while(len(program) != 0):
-        p = getNextProgram(t)
-        if(p == -1):
-            t = t + 1
-            continue
-        ans.append([program[p],t])
-        t = t + burst_time[p]
-        delProcess(p)
-    return [ans,t]
-
-def shortestJobFirstNonPremptive():
-    t = 0
-    ans = []
-    while(len(program) != 0):
-        p = getNextProgram(t)
-        if(p == -1):
-            t = t + 1
-            continue
-        ans.append([program[p],t])
-        t = t + burst_time[p]
-        delProcess(p)
-    return [ans,t]
-
-def shortestJobFirstPremptive():
-    t = 0
-    ans = []
-    while(len(program) != 0):
-        p = getNextProgram(t)
-        if(p == -1):
-            t = t + 1
-            continue
-        t = t + 1
-        burst_time[p] = burst_time[p] - 1
-        ans.append([program[p],1])
-        sortByBurstTime()
-        if(burst_time[p] == 0):
-            delProcess(p)
-    return [ans,t]
-
-
-
 def swap(i,j):
     tp,ta,tb,tpri = program[i],arrival_time[i],burst_time[i],priority[i]
     program[i],arrival_time[i],burst_time[i],priority[i] = program[j],arrival_time[j],burst_time[j],priority[j] 
@@ -76,69 +31,11 @@ def printProcesses():
     
     print("\nEND")
 
-def sortByPriority():
-    for i in range(len(program)):
-        for j in range(len(program) - 1 - i):
-            if(priority[j] > priority[j + 1]):
-                swap(j,j+1)
-                
 def sortByArrivalTime():
     for i in range(len(program)):
         for j in range(len(program) - 1 - i):
             if(arrival_time[j] > arrival_time[j + 1]):
                 swap(j,j+1)
-
-def sortByBurstTime():
-    for i in range(len(program)):
-        for j in range(len(program) - 1 - i):
-            if(burst_time[j] > burst_time[j + 1]):
-                swap(j,j+1)
-    
-            
-def delProcess(i):
-    program.pop(i)
-    arrival_time.pop(i)
-    burst_time.pop(i)
-    priority.pop(i)
-
-def getNextProgram(t):
-    i = 0
-    while(arrival_time[i] > t):
-        i = i + 1
-    if(i == len(program)):
-        return -1
-    return i
-
-def priorityNonPremptive():
-    t = 0
-    ans = []
-    while(len(program) != 0):
-        p = getNextProgram(t)
-        if(p == -1):
-            t = t + 1
-            continue
-        ans.append([program[p],t])
-        t = t + burst_time[p]
-        delProcess(p)
-        print()
-    return [ans,t]
-    
-
-def priorityPremptive():
-    t = 0
-    ans = []
-    p = getNextProgram(t)
-    while(len(program) != 0):
-        p = getNextProgram(t)
-        if(p == -1):
-            t = t + 1
-            continue
-        t = t + 1
-        burst_time[p] = burst_time[p] - 1
-        ans.append([program[p],1])
-        if(burst_time[p] == 0):
-            delProcess(p)
-    return [ans,t]
        
 def getProcessesArrived(t):
     ans = []
@@ -228,9 +125,9 @@ def printAns(ans,t):
 
 
 printProcesses()    
-sortByBurstTime()
+sortByArrivalTime()
 printProcesses()
-ans = shortestJobFirstPremptive()
+ans = roundRobin(2)
 ans[0] = formatAns(ans[0])
 
 printAns(ans[0],ans[1])
