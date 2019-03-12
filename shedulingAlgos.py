@@ -1,5 +1,6 @@
 import queue
 
+#Setting up initial Data
 program = [1,2,3,4]
 arrival_time = [4,2,5,0]
 burst_time = [4,6,7,5]
@@ -223,14 +224,3 @@ def printAns(ans,t):
     print("\nLast Process finished at",t)
 
 
-    
-
-
-
-printProcesses()    
-sortByBurstTime()
-printProcesses()
-ans = shortestJobFirstPremptive()
-ans[0] = formatAns(ans[0])
-
-printAns(ans[0],ans[1])
