@@ -1,2 +1,2 @@
 # Screenshot
-![screenshot](ScreenShot.jpg)
+![screenshot](screenshot.jpg)
